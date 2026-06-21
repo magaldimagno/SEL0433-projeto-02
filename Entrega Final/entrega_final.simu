@@ -1,5 +1,9 @@
 <circuit reactStep="50" Simu_Step_nS="1000" noLinAcc="5" animate="0" Speed_sps="1000000" type="simulide_0.4" Speed_per="100">
 
+Unique  Id: TextComponent-255: 
+Circuit Id: TextComponent-48
+<item labely="-24" circRot="-1.6298487229105e-310" id="TextComponent-48" Font="Helvetica [Cronyx]" valLabRot="0" valLabely="0" Margin="2" Text="Entrega Final - Projeto 2&#xa;Alexandre Augusto Novarino Britto - 14754672&#xa;Eduardo Magaldi Magno - 15448780&#xa;Raphael Parra - 15554782" labelrot="0" Border="1" Font_Size="10" Fixed_Width="true" vflip="1" x="-720" itemtype="TextComponent" Show_id="false" circPos="0,0" boardPos="-1e+06,-1e+06" valLabelx="0" labelx="-16" y="-448" mainComp="false" Opacity="1" boardRot="-1e+06" objectName="TextComponent-255" rotation="0" hflip="1"/>
+
 Unique  Id: Ground-253: 
 Circuit Id: Ground-35
 <item labely="8" circRot="0" id="Ground-35" valLabRot="0" valLabely="0" labelrot="0" vflip="1" x="-148" itemtype="Ground" Show_id="false" circPos="0,0" boardPos="-1e+06,-1e+06" valLabelx="0" labelx="-16" y="-192" mainComp="false" boardRot="-1e+06" objectName="Ground-253" rotation="0" hflip="1"/>
