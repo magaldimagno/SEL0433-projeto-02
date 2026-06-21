@@ -1,0 +1,14 @@
+*.asm
+*.cp
+*.dbg
+*.dct
+*.dlt
+*.lst
+*.mcl
+*.bmk
+*.brk
+*.user.dic
+*callertable
+*.log
+*.ini
+*.cfg
