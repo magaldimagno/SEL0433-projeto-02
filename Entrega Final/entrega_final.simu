@@ -50,7 +50,7 @@ Circuit Id: Node-138
 
 Unique  Id: Potentiometer-149: 
 Circuit Id: Potentiometer-149
-<item valLabelx="24" itemtype="Potentiometer" rotation="-90" objectName="Potentiometer-149" labelx="-16" valLabRot="90" boardPos="-1e+06,-1e+06" labely="-40" labelrot="0" Unit=" kΩ" valLabely="-26" circRot="2.0483345e-316" Show_res="true" circPos="0,0" id="Potentiometer-149" mainComp="false" Show_id="false" hflip="1" vflip="1" Value_Ohm="1000" Resistance="1" x="-420" y="-136" boardRot="-1e+06"/>
+<item valLabelx="24" itemtype="Potentiometer" rotation="-90" objectName="Potentiometer-149" labelx="-16" valLabRot="90" boardPos="-1e+06,-1e+06" labely="-40" labelrot="0" Unit=" kΩ" valLabely="-26" circRot="2.0483345e-316" Show_res="true" circPos="0,0" id="Potentiometer-149" mainComp="false" Show_id="false" hflip="1" vflip="1" Value_Ohm="10000" Resistance="10" x="-420" y="-136" boardRot="-1e+06"/>
 
 Unique  Id: Rail-171: 
 Circuit Id: Rail-171
