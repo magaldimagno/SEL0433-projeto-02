@@ -28,7 +28,7 @@ volatile char tick_250ms = 0;
 volatile bit flag_atualiza;
 volatile char modo = 0; // 0:Aguarda, 1:Longo, 2:Curto, 3:Fim
 unsigned int leitura_adc;
-unsigned int temp_c; // Temperatura x10 (ex: 255 = 25.5 C)
+unsigned long temp_c; // Temperatura x10 (ex: 255 = 25.5 C). Precisa ser long para nao causar overflow na medicao.
 
 void interrupt() {
     // Botao Longo (60s) - INT0
@@ -75,7 +75,7 @@ void interrupt() {
 }
 
 void main() {
-    // Inicializacao ADC e Correcao de Bug do MikroC
+    // Inicializacao ADC
     ADC_Init(); 
     // ADCON1: Vref+ em AN3, Vref- em AN2, AN0 como analogico (0b00111011)
     ADCON1 = 0x3B; 
@@ -102,33 +102,57 @@ void main() {
         // Leitura continua da temperatura (0-100.0 C)
         leitura_adc = ADC_Get_Sample(0); 
         // Com Vref=1V, 1023 representa 102.3 C (escala 10mV/C)
-        temp_c = (leitura_adc * 100) / 102; 
+        temp_c = ((unsigned long)leitura_adc * 100) / 102;
 
-        // Logica da Resistencia (Histerese)
+        // Logica da Resistencia
         if (temp_c < 600) RESISTENCIA = 1;      // Liga abaixo de 60.0 C
         else if (temp_c > 800) RESISTENCIA = 0; // Desliga acima de 80.0 C
 
-        if (flag_atualiza || (modo != 0)) {
-            flag_atualiza = 0;
-            
-            // Exibicao do Tempo
-            if (modo == 1) Lcd_Out(1, 1, "Timer: LONGO   ");
-            else if (modo == 2) Lcd_Out(1, 1, "Timer: CURTO   ");
-            else if (modo == 3) Lcd_Out(1, 1, "Finalizado!    ");
-            else Lcd_Out(1, 1, " Aguardando... ");
+        if (flag_atualiza == 1 || (modo != 0)) {
+          flag_atualiza = 0;
 
-            // Exibicao formatada: "Restam: XXs XX.XC"
-            Lcd_Chr(2, 1, (tempo_restante/10) + '0');
-            Lcd_Chr(2, 2, (tempo_restante%10) + '0');
-            Lcd_Out(2, 3, "s ");
-            
-            Lcd_Chr(2, 6, (temp_c/100) + '0');
-            Lcd_Chr(2, 7, ((temp_c/10)%10) + '0');
-            Lcd_Out(2, 8, ".");
-            Lcd_Chr(2, 9, (temp_c%10) + '0');
-            Lcd_Out(2, 10, " C  ");
-            
-            Delay_ms(100); // Estabilidade visual
+          Delay_ms(10);
+
+          if (modo == 1){
+                Lcd_Out(1, 1, " Timer: LONGO  ");
+                Lcd_Out(2, 1, "00s     000.0 C");
+                // Atualiza Tempo (Pos 1 e 2)
+                Lcd_Chr(2, 1, (tempo_restante/10) + '0'); 
+                Lcd_Chr(2, 2, (tempo_restante%10) + '0');
+                // Atualiza Temperatura (Pos 9, 10, 11 e 13)
+                Lcd_Chr(2, 9,  (temp_c/1000) + '0');       // Centena
+                Lcd_Chr(2, 10, ((temp_c/100)%10) + '0');  // Dezena
+                Lcd_Chr(2, 11, ((temp_c/10)%10) + '0');   // Unidade
+                Lcd_Chr(2, 13, (temp_c%10) + '0');        // Decimal apos o ponto
+            } else if (modo == 2) {
+                Lcd_Out(1, 1, " Timer: CURTO  ");
+                Lcd_Out(2, 1, "00s     000.0 C");
+                // Atualiza Tempo (Pos 1 e 2)
+                Lcd_Chr(2, 1, (tempo_restante/10) + '0'); 
+                Lcd_Chr(2, 2, (tempo_restante%10) + '0');
+                // Atualiza Temperatura (Pos 9, 10, 11 e 13)
+                Lcd_Chr(2, 9,  (temp_c/1000) + '0');       // Centena
+                Lcd_Chr(2, 10, ((temp_c/100)%10) + '0');  // Dezena
+                Lcd_Chr(2, 11, ((temp_c/10)%10) + '0');   // Unidade
+                Lcd_Chr(2, 13, (temp_c%10) + '0');        // Decimal apos o ponto
+            } else if (modo == 3) {
+                Lcd_Out(1, 1, " Finalizado!   ");
+                Lcd_Out(2, 1, "000.0 C        ");
+                // Atualiza Temperatura (Pos 1, 2, 3 e 5)
+                Lcd_Chr(2, 1,  (temp_c/1000) + '0');       // Centena
+                Lcd_Chr(2, 2, ((temp_c/100)%10) + '0');  // Dezena
+                Lcd_Chr(2, 3, ((temp_c/10)%10) + '0');   // Unidade
+                Lcd_Chr(2, 5, (temp_c%10) + '0');        // Decimal apos o ponto
+            } else {
+                Lcd_Out(1, 1, " Aguardando... ");
+                Lcd_Out(2, 1, "000.0 C        ");
+                // Atualiza Temperatura (Pos 1, 2, 3 e 5)
+                Lcd_Chr(2, 1,  (temp_c/1000) + '0');       // Centena
+                Lcd_Chr(2, 2, ((temp_c/100)%10) + '0');  // Dezena
+                Lcd_Chr(2, 3, ((temp_c/10)%10) + '0');   // Unidade
+                Lcd_Chr(2, 5, (temp_c%10) + '0');        // Decimal apos o ponto
+          }        
+            Delay_ms(100);
         }
     }
 }

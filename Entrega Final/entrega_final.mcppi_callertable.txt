@@ -20,8 +20,8 @@ main
 				Delay_50us
 	ADC_Get_Sample
 		Delay_22us
-	Mul_16X16_U
-	Div_16X16_U
+	Mul_32x32_U
+	Div_32x32_U
 	Div_8X8_U
 	Lcd_Chr
 		Lcd_Cmd
